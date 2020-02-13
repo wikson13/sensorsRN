@@ -10,4 +10,5 @@ function* WatchIncrementCounterAsync() {
   yield takeEvery(actions.INCREMENT_COUNTER_REQUEST, incrementCounterAsync);
 }
 
-export default (counterSagas = [fork(WatchIncrementCounterAsync)]);
+const counterSagas = [fork(WatchIncrementCounterAsync)];
+export default counterSagas;

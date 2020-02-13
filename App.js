@@ -26,29 +26,29 @@ import {
 import {Button} from 'react-native-paper';
 import AppBar from './components/AppBar';
 import {TextInput} from 'react-native-paper';
-import SignIn from './components/SignIn';
+import SigninScreen from './screens/SigninScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   incrementCounter,
   incrementCounterAsync,
 } from './redux/counter/counterActions';
-
+import Loading from './components/Loading';
+import {NavigationContainer} from '@react-navigation/native';
+import AuthNavigation from './navigation/authNavigation';
 const App: () => React$Node = () => {
-  const counter = useSelector(state => state.counter.counter);
-  const dispatch = useDispatch();
   return (
-    <>
-      {/*<SignIn />*/}
+    <NavigationContainer>
+      <AuthNavigation />
+      {/*<Loading />*/}
+      {/*<SigninScreen />*/}
       {/*<StatusBar barStyle="dark-content" />*/}
-      <AppBar />
-      <Text>{counter}</Text>
-      <Button onPress={() => dispatch(incrementCounter())}>+</Button>
-      <Button onPress={() => dispatch(incrementCounterAsync())}>a+</Button>
+      {/*<AppBar />*/}
+
       {/*<View style={styles.container}>*/}
       {/*<Text>dd</Text>*/}
 
       {/*</View>*/}
-    </>
+    </NavigationContainer>
   );
 };
 

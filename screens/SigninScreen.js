@@ -1,14 +1,26 @@
 import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import {Button, Text, TextInput} from 'react-native-paper';
+import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
+import {Button, Text, TextInput, HelperText} from 'react-native-paper';
 import {View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import * as authActions from '../redux/auth/authActions';
 
-const SignIn = () => {
+const SigninScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const error = useSelector(state => state.auth.err);
+
+  const dispatch = useDispatch();
+  const signinButtonHandler = () => {
+    dispatch(authActions.authRequest({email, password, isLogin}));
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Sign in</Text>
+      <StatusBar barStyle="dark-content" />
+
+      <Text style={styles.title}>{isLogin ? 'Sign in' : 'Sign up'}</Text>
+
       <TextInput
         style={styles.input}
         label="Email"
@@ -27,20 +39,23 @@ const SignIn = () => {
           setPassword(text);
         }}
       />
+      <HelperText type="error" visible={error} style={styles.helperText}>
+        {error && error.message}
+      </HelperText>
       <Button
         dark={true}
         mode="contained"
-        onPress={() => console.log('login', email, password)}
+        onPress={signinButtonHandler}
         style={styles.button}>
-        Sign in
+        {!isLogin ? 'sign up' : 'sign in'}
       </Button>
       <Button
         color="lightgray"
         dark={false}
         mode="contained"
-        onPress={() => console.log('Pressed')}
+        onPress={() => setIsLogin(!isLogin)}
         style={styles.button}>
-        Sign up
+        {isLogin ? 'Switch to sign up' : 'Switch to sign in'}
       </Button>
     </SafeAreaView>
   );
@@ -64,6 +79,9 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 7,
   },
+  helperText: {
+    textAlign: 'center',
+  },
 });
 
-export default SignIn;
+export default SigninScreen;
