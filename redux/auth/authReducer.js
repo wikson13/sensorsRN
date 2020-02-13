@@ -44,6 +44,26 @@ const authReducer = (state = initialState, action) => {
         userId: action.payload.userId,
         userEmail: action.payload.email,
       };
+    case actions.AUTH_STORAGE_START:
+      return {
+        ...state,
+        loading: true,
+        err: null,
+      };
+    case actions.AUTH_STORAGE_SUCCESS:
+      return {
+        ...state,
+        token: action.payload.token,
+        userId: action.payload.userId,
+        userEmail: action.payload.email,
+        loading: false,
+      };
+    case actions.AUTH_STORAGE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        err: action.payload,
+      };
     default:
       return state;
   }

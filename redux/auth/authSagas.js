@@ -2,6 +2,7 @@ import * as authActions from './authActions';
 import {put, takeLatest, takeEvery, fork} from 'redux-saga/effects';
 
 import * as axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function* authRequest({payload}) {
   yield put(authActions.authStart());
@@ -25,10 +26,32 @@ function* authRequest({payload}) {
   }
 }
 
+function* authStorageRequest() {
+  yield put(authActions.authStorageStart());
+
+  const userData = yield AsyncStorage.getItem('userData');
+  if (!userData) {
+    yield put(authActions.authStorageFailed());
+    return;
+  }
+  const transformedData = JSON.parse(userData);
+  const {token, userId, expiryDate, email} = transformedData;
+  const expirationDate = new Date(expiryDate);
+  if (expirationDate <= new Date() || !token || !userId) {
+    yield put(authActions.authStorageFailed());
+    return;
+  }
+  yield put(authActions.authStorageSuccess({userId, token, email}));
+}
+
 function* watchAuthRequest() {
   yield takeLatest(authActions.AUTH_REQUEST, authRequest);
 }
 
-const authSagas = [fork(watchAuthRequest)];
+function* watchAuthStorageRequest() {
+  yield takeLatest(authActions.AUTH_STORAGE_REQUEST, authStorageRequest);
+}
+
+const authSagas = [fork(watchAuthRequest), fork(watchAuthStorageRequest)];
 
 export default authSagas;

@@ -34,12 +34,14 @@ import {
 } from './redux/counter/counterActions';
 import Loading from './components/Loading';
 import {NavigationContainer} from '@react-navigation/native';
-import AuthNavigation from './navigation/authNavigation';
+import AuthNavigation from './navigation/AuthNavigation';
+import StartupScreen from './screens/StartupScreen';
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <AuthNavigation />
+      {/*<AuthNavigation />*/}
       {/*<Loading />*/}
+      <StartupScreen />
       {/*<SigninScreen />*/}
       {/*<StatusBar barStyle="dark-content" />*/}
       {/*<AppBar />*/}

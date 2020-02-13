@@ -7,6 +7,10 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILED = 'AUTH_FAILED';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const AUTHENTICATE = 'AUTHENTICATE';
+export const AUTH_STORAGE_START = 'AUTH_STORAGE_START';
+export const AUTH_STORAGE_REQUEST = 'AUTH_STORAGE_REQUEST';
+export const AUTH_STORAGE_SUCCESS = 'AUTH_STORAGE_SUCCESS';
+export const AUTH_STORAGE_FAILED = 'AUTH_STORAGE_FAILED';
 
 export const authRequest = userData => {
   return {
@@ -66,5 +70,32 @@ export const authenticate = (userId, token, email) => {
   return {
     type: AUTHENTICATE,
     payload: {userId, token, email},
+  };
+};
+
+export const authStorageStart = (userId, token, email) => {
+  return {
+    type: AUTH_STORAGE_START,
+    payload: {userId, token, email},
+  };
+};
+
+export const authStorageRequest = userData => {
+  return {
+    type: AUTH_STORAGE_REQUEST,
+    payload: userData,
+  };
+};
+
+export const authStorageFailed = () => {
+  return {
+    type: AUTH_STORAGE_FAILED,
+  };
+};
+
+export const authStorageSuccess = responseData => {
+  return {
+    type: AUTH_STORAGE_SUCCESS,
+    payload: responseData,
   };
 };

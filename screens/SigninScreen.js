@@ -6,8 +6,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../redux/auth/authActions';
 
 const SigninScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test@test.pl');
+  const [password, setPassword] = useState('wiktor13');
   const [isLogin, setIsLogin] = useState(true);
   const error = useSelector(state => state.auth.err);
 

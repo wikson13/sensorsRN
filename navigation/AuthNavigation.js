@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 
 const authNavigation = () => {
   const Stack = createStackNavigator();
-  const isLoading = useSelector(state => state.auth.loading);
+  // const isLoading = useSelector(state => state.auth.loading);
   const userToken = useSelector(state => state.auth.token);
   return (
     <Stack.Navigator>
@@ -18,8 +18,6 @@ const authNavigation = () => {
           component={SigninScreen}
           options={{
             title: 'Sign in',
-            // When logging out, a pop animation feels intuitive
-            // animationTypeForReplace: state.isSignout ? 'pop' : 'push',
           }}
         />
       ) : (
