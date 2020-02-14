@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
-import {Button, Text, TextInput, HelperText} from 'react-native-paper';
+import {
+  Button,
+  Text,
+  TextInput,
+  HelperText,
+  IconButton,
+} from 'react-native-paper';
 import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../redux/auth/authActions';
@@ -9,6 +15,7 @@ const SigninScreen = () => {
   const [email, setEmail] = useState('test@test.pl');
   const [password, setPassword] = useState('wiktor13');
   const [isLogin, setIsLogin] = useState(true);
+  const [hidePassword, setHidePassword] = useState(true);
   const error = useSelector(state => state.auth.err);
 
   const dispatch = useDispatch();
@@ -30,15 +37,25 @@ const SigninScreen = () => {
           setEmail(text);
         }}
       />
-      <TextInput
-        style={styles.input}
-        label="Password"
-        value={password}
-        mode="outlined"
-        onChangeText={text => {
-          setPassword(text);
-        }}
-      />
+      <View>
+        <TextInput
+          style={styles.input}
+          label="Password"
+          value={password}
+          mode="outlined"
+          secureTextEntry={hidePassword}
+          onChangeText={text => {
+            setPassword(text);
+          }}
+        />
+        <IconButton
+          icon="eye"
+          color="#aaa"
+          size={35}
+          onPress={() => setHidePassword(!hidePassword)}
+          style={styles.hidePasswordButton}
+        />
+      </View>
       <HelperText type="error" visible={error} style={styles.helperText}>
         {error && error.message}
       </HelperText>
@@ -57,6 +74,11 @@ const SigninScreen = () => {
         style={styles.button}>
         {isLogin ? 'Switch to sign up' : 'Switch to sign in'}
       </Button>
+      {isLogin ? (
+        <Button color="#aaa" onPress={() => alert('reset')}>
+          Reset password
+        </Button>
+      ) : null}
     </SafeAreaView>
   );
 };
@@ -64,8 +86,7 @@ const SigninScreen = () => {
 const styles = StyleSheet.create({
   container: {
     margin: 15,
-    justifyContent: 'flex-start',
-    marginTop: 200,
+    justifyContent: 'center',
     flex: 1,
   },
   title: {
@@ -81,6 +102,11 @@ const styles = StyleSheet.create({
   },
   helperText: {
     textAlign: 'center',
+  },
+  hidePasswordButton: {
+    position: 'absolute',
+    right: 1,
+    top: 13,
   },
 });
 
